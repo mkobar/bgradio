@@ -16,8 +16,8 @@ getDocumentText: function(url) {
     
     //jsFiddleConsole.log(url);
 	//getWords(currentUrl);
-		var apiUrl = "http://api.diffbot.com/v2/article?token=4ba94ea8bdd8300d76961b5888cf46f1" +
-	  "&url=" + escape(url);
+	var apiUrl = "http://api.diffbot.com/v2/article?token=4ba94ea8bdd8300d76961b5888cf46f1"
+					+ "&url=" + escape(url);
 
     //jsFiddleConsole.log(url);
 	  $.get(apiUrl, function(data) {
@@ -25,18 +25,10 @@ getDocumentText: function(url) {
 		  console.log(url)
 	  var extractedJSONText = JSON.stringify(data, undefined, 2);
           // jsFiddleConsole.log(extractedJSONText);
-          console.log(extractedJSONText);
-		  alert(data.text);
+          // console.log(extractedJSONText);
+		  // alert(data.text);
+	  return data.text;
 	});
 }
 
-// TextExtractor.getDocumentText(getCurrentUrl());
-/* 
-function getCurrentUrl()
-{
-   //jsFiddleConsole.log(document.location.href);
-	return window.content.document.location.href;
-	// return document.location.href;
-	// return 'http://www.yahoo.com';
-} */
 };
