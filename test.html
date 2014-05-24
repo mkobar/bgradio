@@ -1,0 +1,25 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.TextExtractor.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.SongChooser.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.SongPlayer.js"></script>
+<script>
+
+function handleFailureMessage(msg) {
+  alert(msg);
+}
+
+var url = "http://www.yahoo.com";
+TextExtractor.getDocumentText(url, function(data) {
+  console.log("Got document data: ", data);
+  SongChooser.chooseSongs(data.text, function(data) {
+    console.log("Got songs: " + data);
+    SongPlayer.playSongs(data);
+  }, handleFailureMessage);
+}, handleFailureMessage);
+
+</script>
+</head>
+</html>
