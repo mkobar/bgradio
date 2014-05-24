@@ -14,16 +14,20 @@
 <script type="application/x-javascript"
  src="http://code.jquery.com/jquery-2.1.1.min.js"/>
 
-<toolbox id="navigator-toolbox">
-	<toolbarbutton id="moodmusic-button" type="menu-button"
+<toolbarpalette id="BrowserToolbarPalette">
+	<toolbarbutton id="moodmusic-button"
+	 class="toolbarbutton-1"
+	 type="menu-button"
 	 label="Play Music"
+	 insertbefore="searchBar"
 	 oncommand="moodmusicobj.playMusic()">
-		
-		<menupopup id="moodmusic-menu" width="300" height="200">
+	 
+		<menupopup id="moodmusic-menu" width="300">
 			<iframe src="http://localhost:8000/player.html"
-			 width="300" height="200"/>
+			 width="294" />
 		</menupopup>
+	
 	</toolbarbutton>
-</toolbox>
+</toolbarpalette>
 
 </overlay>

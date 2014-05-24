@@ -1,3 +1,7 @@
-#moodmusic-playButton {
-	background-image: url("chrome://moodmusic/skin/play64.png");
+#moodmusic-button {
+	list-style-image: url("chrome://moodmusic/skin/icon24.png");
+}
+
+toolbar[iconsize="small"] #moodmusic-button  {
+  list-style-image: url("chrome://moodmusic/skin/icon16.png");
 }
