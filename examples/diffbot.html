@@ -1,0 +1,22 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+var url = "http://www.foxnews.com/us/2014/05/23/boy-scouts-president-gates-says-supports-gay-adults-inclusion-but-opposes-new/";
+console.log(url)
+
+var apiUrl = "http://api.diffbot.com/v2/article?token=4ba94ea8bdd8300d76961b5888cf46f1" +
+  "&url=" + escape(url);
+console.log(apiUrl)
+
+$.get(apiUrl, function(data) {
+  document.write("<pre>" + JSON.stringify(data, undefined, 2) + "</pre>");
+});
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
