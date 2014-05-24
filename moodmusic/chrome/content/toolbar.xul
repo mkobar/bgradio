@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://moodmusic/skin/moodmusic.css" type="text/css"?>
+
+<overlay id="moodmusic-overlay"
+ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+ xmlns:HTML="http://www.w3.org/1999/xhtml">
+
+<script type="application/x-javascript"
+ src="chrome://moodmusic/content/moodmusic.js"/>
+
+<script type="application/x-javascript"
+ src="chrome://moodmusic/content/moodmusic.TextExtractor.js"/>
+
+<script type="application/x-javascript"
+ src="http://code.jquery.com/jquery-2.1.1.min.js"/>
+
+<toolbox id="navigator-toolbox">
+	<toolbarbutton id="moodmusic-button" type="menu-button"
+	 label="Play Music"
+	 oncommand="moodmusicobj.playMusic()">
+		
+		<menupopup id="moodmusic-menu">
+			<menuitem />
+		</menupopup>
+	</toolbarbutton>
+</toolbox>
+
+</overlay>
