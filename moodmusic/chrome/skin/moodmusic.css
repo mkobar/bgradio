@@ -3,5 +3,11 @@
 }
 
 toolbar[iconsize="small"] #moodmusic-button  {
-  list-style-image: url("chrome://moodmusic/skin/icon16.png");
+	list-style-image: url("chrome://moodmusic/skin/icon16.png");
+}
+
+#moodmusic-menu {
+	border: none;
+	margin: 0px;
+	padding: 0px;
 }

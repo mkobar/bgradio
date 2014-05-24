@@ -22,9 +22,9 @@
 	 insertbefore="searchBar"
 	 oncommand="moodmusicobj.playMusic()">
 	 
-		<menupopup id="moodmusic-menu" width="300">
-			<iframe src="http://localhost:8000/player.html"
-			 width="294" />
+		<menupopup id="moodmusic-menu" width="300" height="190">
+			<iframe id="playerFrame" src="http://localhost:8000/player.html"
+			 width="294" height="184" />
 		</menupopup>
 	
 	</toolbarbutton>

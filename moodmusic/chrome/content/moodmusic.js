@@ -10,6 +10,7 @@ init: function() {
 },
 
 onPageLoad: function(aEvent) {
+	document.getElementById('playerFrame').contentWindow.location.reload();
 	moodmusicMenu = document.getElementById("moodmusic-menu");
 	moodmusicMenu.openPopup();
 	moodmusicMenu.hidePopup();
