@@ -20,14 +20,8 @@
 	 oncommand="moodmusicobj.playMusic()">
 		
 		<menupopup id="moodmusic-menu" width="200">
-			<hbox id="moodmusic-playControls">
-				<button id="moodmusic-backButton" width="40" />
-				<button id="moodmusic-playButton" width= "40" />
-				<button id="moodmusic-forwardButton" width="40" />
-			</hbox>
-			<hbox>
-				<menuitem id="moodmusic-songName" />
-			</hbox>
+			<iframe src="http://localhost:8000/hello.html"
+			 width="500" height="250"/>
 		</menupopup>
 	</toolbarbutton>
 </toolbox>

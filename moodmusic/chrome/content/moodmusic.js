@@ -2,6 +2,17 @@ var moodmusicobj = {
 
 // prefs: null,
 
+init: function() {
+	var appcontent = document.getElementById("appcontent");   // browser
+	if(appcontent){
+		appcontent.addEventListener("DOMContentLoaded", this.onPageLoad, true);
+	}
+},
+
+onPageLoad: function(aEvent) {
+	this.autoPlay();
+},
+
 getCurrentUrl: function()
 {
 	return window.content.document.location.href;
@@ -12,6 +23,13 @@ playMusic: function()
 	var curUrl = this.getCurrentUrl();
 	// console.log(curUrl);
 	var trimText = TextExtractor.getDocumentText(curUrl);
+},
+
+autoPlay: function()
+{
+	moodmusicMenu = document.getElementById("moodmusic-menu");
+	moodmusicMenu.openPopup();
+	moodmusicMenu.hidePopup();
 }
 
 /* getText: function()
@@ -31,3 +49,8 @@ playMusic: function()
 	});
 } */
 };
+	
+window.addEventListener("load", function load(event){
+    window.removeEventListener("load", load, false); //remove listener, no longer needed
+    moodmusicobj.init();  
+},false);
