@@ -10,7 +10,9 @@ init: function() {
 },
 
 onPageLoad: function(aEvent) {
-	this.autoPlay();
+	moodmusicMenu = document.getElementById("moodmusic-menu");
+	moodmusicMenu.openPopup();
+	moodmusicMenu.hidePopup();
 },
 
 getCurrentUrl: function()
@@ -23,14 +25,14 @@ playMusic: function()
 	var curUrl = this.getCurrentUrl();
 	// console.log(curUrl);
 	var trimText = TextExtractor.getDocumentText(curUrl);
-},
-
-autoPlay: function()
-{
-	moodmusicMenu = document.getElementById("moodmusic-menu");
-	moodmusicMenu.openPopup();
-	moodmusicMenu.hidePopup();
 }
+
+// autoPlay: function()
+// {
+	// moodmusicMenu = document.getElementById("moodmusic-menu");
+	// moodmusicMenu.openPopup();
+	// moodmusicMenu.hidePopup();
+// }
 
 /* getText: function()
 {
