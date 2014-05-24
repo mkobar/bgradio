@@ -22,7 +22,7 @@ __getMoods: function(textStructure) {
 },
 
 __doEchoNestSearch: function(params, successCallback, failureCallback) {
-  params["api_Key"] = "ZPWVUT2WEUOBYE8KI";
+  params["api_key"] = "ZPWVUT2WEUOBYE8KI";
   $.ajax({
     url: "http://developer.echonest.com/api/v4/song/search?bucket=id:rdio-US&bucket=tracks",
     data: params,
@@ -41,6 +41,42 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
   }
 
   this.__doEchoNestSearch({"mood": "dark"}, function(data) {
+    var extractedJSONText = JSON.stringify(data, undefined, 2);
+          var jsonObject = eval('(' + extractedJSONText + ')');
+          console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
+
+          var count = 0;
+          var songIds = [];
+
+          while(count < jsonObject.response.songs.length)
+          {
+                var count2 = 0;
+                var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
+
+                if(jsonObject.response.songs[count].tracks != 0)
+                {
+                  //console.log("length is good");
+                  while(count2 < sizeOfTracks)
+                  {
+                    if(jsonObject.response.songs[count].tracks[count2].foreign_id != null)
+                    {
+                      if(jsonObject.response.songs[count].tracks[count2].foreign_id != "")
+                      {
+                        //console.log(jsonObject.response.songs[count].tracks[count2].foreign_id);
+                        var tempRdioTrackId = jsonObject.response.songs[count].tracks[count2].foreign_id;
+                        var res = tempRdioTrackId.substring(14, tempRdioTrackId.length); 
+                        //rdio-US:track:t9538967
+                        console.log(res);
+                        songIds.push(res);
+                      }
+                    }
+                    count2++;
+                  }
+                }
+              count++;
+          }
+
+          console.log(jsonObject.response.songs.length);
     
   }, failureCallback);
 
