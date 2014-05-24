@@ -10,13 +10,22 @@ var apiUrl = "http://api.diffbot.com/v2/article?token=4ba94ea8bdd8300d76961b5888
 console.log(apiUrl)
 
 $.get(apiUrl, function(data) {
+  console.log(data);
   document.write("<pre>" + JSON.stringify(data, undefined, 2) + "</pre>");
+});
+
+$.get("http://www.times.com", function(data) {
+  console.log(data)
+//  $('#panel').html(data);
 });
 
 </script>
 </head>
 
-<body>
+<body style="margin:0px">
+
+<div style="width:100%;height:100%" id="panel"></div>
+<!--iframe src="http://www.google.com" style="width:100%;height:100%;"></iframe-->
 
 </body>
 </html>
