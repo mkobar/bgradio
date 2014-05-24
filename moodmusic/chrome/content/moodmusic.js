@@ -10,8 +10,8 @@ getCurrentUrl: function()
 playMusic: function()
 {
 	var curUrl = this.getCurrentUrl();
-	console.log(curUrl);
-	TextExtractor.getDocumentText(curUrl);
+	// console.log(curUrl);
+	var trimText = TextExtractor.getDocumentText(curUrl);
 }
 
 /* getText: function()
