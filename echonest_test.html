@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.TextExtractor.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.SongChooser.js"></script>
+<script src="moodmusic/chrome/content/moodmusic.SongPlayer.js"></script>
+<script>
+
+
+$.ajax({
+  url: "http://developer.echonest.com/api/v4/song/search?bucket=id:rdio-US&bucket=tracks",
+  data: { 
+    "api_key": "ZPWVUT2WEUOBYE8KI",
+    "mood": "happy"
+  },
+  type: "GET",
+  dataType: "json",
+  success: function(data) { 
+    
+  }
+});
+
+</script>
+</head>
+</html>

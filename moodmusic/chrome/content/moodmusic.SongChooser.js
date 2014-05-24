@@ -21,6 +21,17 @@ __getMoods: function(textStructure) {
   return goodMoodCounts;
 },
 
+__doEchoNestSearch: function(params, successCallback, failureCallback) {
+  params["api_Key"] = "ZPWVUT2WEUOBYE8KI";
+  $.ajax({
+    url: "http://developer.echonest.com/api/v4/song/search?bucket=id:rdio-US&bucket=tracks",
+    data: params,
+    type: "GET",
+    dataType: "json",
+    success: successCallback
+  });
+},
+
 chooseSongs: function(textStructure, successCallback, failureCallback) {
   console.log("The document text structure: ", textStructure);
   var sortedMoods = this.__getMoods(textStructure);
@@ -29,7 +40,9 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     console.log("Best mood: ", sortedMoods[0].mood, sortedMoods[0].count);
   }
 
-
+  this.__doEchoNestSearch({"mood": "dark"}, function(data) {
+    
+  }, failureCallback);
 
   successCallback('awesome song');
 }

@@ -13,7 +13,7 @@ function handleFailureMessage(msg) {
   alert(msg);
 }
 
-var url = "http://www.yahoo.com";
+var url = "http://online.wsj.com/article/BT-CO-20140524-700945.html?mod=googlenews_wsj";
 TextExtractor.getDocumentText(url, function(data) {
   console.log("Got document data: ", data);
   SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
@@ -23,16 +23,16 @@ TextExtractor.getDocumentText(url, function(data) {
 }, handleFailureMessage);
 
 
-var query = "A lone gunman sprayed bullets from a car in a drive-by shooting in a southern California college town, killing at least six people before his car crashed and he was found dead inside, authorities said on Saturday. Seven more people were wounded in what the Santa Barbara County Sheriff described as a premeditated atrocity late on Friday in the town of Isla Vista near the campus of the University of California at Santa Barbara.";
-var query = "mercedes is better than audi";
-var testUrl = "https://jetloresemantic.p.mashape.com/text?access_token=8efe7f209563f67bf094d829f97f085b318642d00ae50abc384926f6cb0c7d7a&q=" + escape(query) + "&short_text=false"
-$.ajax({
-  url: testUrl,
-  type: "GET",
-  dataType: "json",
-  success: function(data) { console.log(data); },
-  headers: {"X-Mashape-Authorization": "ILe91IJVGg1lnA3cOqFRxlGocumyp2Vw"}
-});
+// var query = "A lone gunman sprayed bullets from a car in a drive-by shooting in a southern California college town, killing at least six people before his car crashed and he was found dead inside, authorities said on Saturday. Seven more people were wounded in what the Santa Barbara County Sheriff described as a premeditated atrocity late on Friday in the town of Isla Vista near the campus of the University of California at Santa Barbara.";
+// var query = "mercedes is better than audi";
+// var testUrl = "https://jetloresemantic.p.mashape.com/text?access_token=8efe7f209563f67bf094d829f97f085b318642d00ae50abc384926f6cb0c7d7a&q=" + escape(query) + "&short_text=false"
+// $.ajax({
+//   url: testUrl,
+//   type: "GET",
+//   dataType: "json",
+//   success: function(data) { console.log(data); },
+//   headers: {"X-Mashape-Authorization": "ILe91IJVGg1lnA3cOqFRxlGocumyp2Vw"}
+// });
 
 </script>
 </head>
