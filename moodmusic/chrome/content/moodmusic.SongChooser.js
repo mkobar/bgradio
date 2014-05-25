@@ -28,7 +28,10 @@ __doEchoNestSearch: function(params, successCallback, failureCallback) {
     data: params,
     type: "GET",
     dataType: "json",
-    success: successCallback
+    success: successCallback,
+    error: function(data, statusText, request) {
+      failureCallback("Error when search echonest for: " + statusText);
+    }
   });
 },
 
@@ -42,46 +45,47 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     sortedMoods.push('happy');  // default mood is happy :)
   }
 
-  this.__doEchoNestSearch({mood: sortedMoods[0].mood}, function(data) {
+  var searchParams = {
+    mood: sortedMoods[0].mood,
+    song_type: "live:false",
+    min_duration: 60,
+    max_tempo: 300,
+    sort: "song_hotttnesss-desc",
+    limit: true,
+    format: "json"
+  };
+
+  this.__doEchoNestSearch(searchParams, function(data) {
     var extractedJSONText = JSON.stringify(data, undefined, 2);
     var jsonObject = eval('(' + extractedJSONText + ')');
-    console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
-
+    // console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
+    
     var count = 0;
     var songIds = [];
-
-    while(count < jsonObject.response.songs.length)
-    {
-          var count2 = 0;
-          var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
-
-          if(jsonObject.response.songs[count].tracks != 0)
-          {
-            //console.log("length is good");
-            while(count2 < sizeOfTracks)
-            {
-              if(jsonObject.response.songs[count].tracks[count2].foreign_id != null)
-              {
-                if(jsonObject.response.songs[count].tracks[count2].foreign_id != "")
-                {
-                  //console.log(jsonObject.response.songs[count].tracks[count2].foreign_id);
-                  var tempRdioTrackId = jsonObject.response.songs[count].tracks[count2].foreign_id;
-                  var res = tempRdioTrackId.substring(14, tempRdioTrackId.length); 
-                  //rdio-US:track:t9538967
-                  console.log(res);
-                  songIds.push(res);
-                }
-              }
-              count2++;
-            }
-          }
-        count++;
-    }
-    successCallback(songIds);
-    console.log(jsonObject.response.songs.length);
     
+    while (count < jsonObject.response.songs.length) {
+      var count2 = 0;
+      var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
+      
+      if (jsonObject.response.songs[count].tracks != 0) {
+        //console.log("length is good");
+        while (count2 < sizeOfTracks) {
+          if (jsonObject.response.songs[count].tracks[count2].foreign_id != null && 
+              jsonObject.response.songs[count].tracks[count2].foreign_id != "") {
+            //console.log(jsonObject.response.songs[count].tracks[count2].foreign_id);
+            var tempRdioTrackId = jsonObject.response.songs[count].tracks[count2].foreign_id;
+            var res = tempRdioTrackId.substring(14, tempRdioTrackId.length); 
+            //rdio-US:track:t9538967
+            songIds.push(res);
+          }
+          count2++;
+        }
+      }
+      count++;
+    }
+    console.log("Tracks found: " + jsonObject.response.songs.length);
+    successCallback(songIds);
   }, failureCallback);
-  //successCallback('awesome song');
 }
 
 };
