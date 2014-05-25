@@ -48,7 +48,8 @@ onPageLoad: function(aEvent) {
 
 autoPlay: function()
 {
-	document.getElementById('playerFrame').contentWindow.location.reload();
+	playerFrame = document.getElementById('playerFrame');
+	playerFrame.contentWindow.location.reload();
 	moodmusicMenu = document.getElementById("moodmusic-menu");
 	moodmusicMenu.openPopup();
 	moodmusicMenu.hidePopup();
