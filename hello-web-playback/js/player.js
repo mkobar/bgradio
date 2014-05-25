@@ -94,7 +94,6 @@ callback_object.ready = function ready(user) {
   
   var trackIds = passVars()["ID"];
   console.log(trackIds);
-  alert(trackIds.length);
   for(var i=0; i<trackIds.length; i++) {
 	apiswf.rdio_queue(trackIds[i]);
   }

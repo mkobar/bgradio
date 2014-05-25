@@ -52,7 +52,8 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     max_tempo: 300,
     sort: "song_hotttnesss-desc",
     limit: true,
-    format: "json"
+    format: "json",
+	results: 15
   };
 
   this.__doEchoNestSearch(searchParams, function(data) {
@@ -66,6 +67,9 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     while (count < jsonObject.response.songs.length) {
       var count2 = 0;
       var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
+	  
+	  // limit number of tracks to 1 per song found
+	  if (sizeOfTracks > 1) { sizeOfTracks = 1; }
       
       if (jsonObject.response.songs[count].tracks != 0) {
         //console.log("length is good");
