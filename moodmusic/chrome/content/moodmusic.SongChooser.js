@@ -57,38 +57,38 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
   };
 
   this.__doEchoNestSearch(searchParams, function(data) {
-    var extractedJSONText = JSON.stringify(data, undefined, 2);
-    var jsonObject = eval('(' + extractedJSONText + ')');
-    // console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
+	var extractedJSONText = JSON.stringify(data, undefined, 2);
+	var jsonObject = eval('(' + extractedJSONText + ')');
+	// console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
 
-    var count = 0;
-    var songIds = [];
-    
-    while (count < jsonObject.response.songs.length) {
-      var count2 = 0;
-      var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
-	  
-	    // limit number of tracks to 1 per song found
-	    if (sizeOfTracks > 1) { sizeOfTracks = 1; }
-      
-      if (jsonObject.response.songs[count].tracks != 0) {
-        //console.log("length is good");
-        while (count2 < sizeOfTracks) {
-          if (jsonObject.response.songs[count].tracks[count2].foreign_id != null && 
-              jsonObject.response.songs[count].tracks[count2].foreign_id != "") {
-            //console.log(jsonObject.response.songs[count].tracks[count2].foreign_id);
-            var tempRdioTrackId = jsonObject.response.songs[count].tracks[count2].foreign_id;
-            var res = tempRdioTrackId.substring(14, tempRdioTrackId.length); 
-            //rdio-US:track:t9538967
-            songIds.push(res);
-          }
-          count2++;
-        }
-      }
-      count++;
-    }
-    console.log("Tracks found: " + jsonObject.response.songs.length);
-    successCallback(songIds);
+	var count = 0;
+	var songIds = [];
+
+	while (count < jsonObject.response.songs.length) {
+		var count2 = 0;
+		var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
+
+		// limit number of tracks to 1 per song found
+		if (sizeOfTracks > 1) { sizeOfTracks = 1; }
+
+		if (jsonObject.response.songs[count].tracks != 0) {
+		//console.log("length is good");
+		while (count2 < sizeOfTracks) {
+			if (jsonObject.response.songs[count].tracks[count2].foreign_id != null && 
+			  jsonObject.response.songs[count].tracks[count2].foreign_id != "") {
+			//console.log(jsonObject.response.songs[count].tracks[count2].foreign_id);
+			var tempRdioTrackId = jsonObject.response.songs[count].tracks[count2].foreign_id;
+			var res = tempRdioTrackId.substring(14, tempRdioTrackId.length); 
+			//rdio-US:track:t9538967
+			songIds.push(res);
+			}
+			count2++;
+		}
+		}
+		count++;
+	}
+	console.log("Tracks found: " + jsonObject.response.songs.length);
+	successCallback(songIds);
 
   }, failureCallback);
 }
