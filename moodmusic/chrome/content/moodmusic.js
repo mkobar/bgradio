@@ -1,39 +1,81 @@
+function handleFailureMessage(msg) {
+  alert(msg);
+}
+
 var moodmusicobj = {
 
 // prefs: null,
 
 init: function() {
+	// // Get handle to Mozilla preferences service
+	// this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
+		// .getService(Components.interfaces.nsIPrefService)
+		// .getBranch("extensions.moodmusic.");
+	// this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+	
+	// // Add observer to "listen" for preference changes
+	// this.prefs.addObserver("", this, false);
+	
 	var appcontent = document.getElementById("appcontent");   // browser
 	if(appcontent){
 		appcontent.addEventListener("DOMContentLoaded", this.onPageLoad, true);
 	}
 },
 
-onPageLoad: function(aEvent) {
+getCurrentURL: function()
+{
+	return window.content.document.location.href;
+},
+
+onPageLoad: function(aEvent) {	
+	var url = moodmusicobj.getCurrentURL();
+	alert(url);
+	alert(TextExtractor.show);
+	TextExtractor.getDocumentText(url, function(data) {
+		console.log("Got document data: ", data);
+		SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
+			console.log("Got songs: " + data);
+			playerURL = moodmusicobj.createPlayerURL(data);
+			var playerFrame = document.getElementByID('playerFrame');
+			playerFrame.setAttribute(src, playerURL);
+			// SongPlayer.playSongs(data);
+		}, handleFailureMessage);
+	}, handleFailureMessage);
+	
+	moodmusicobj.autoPlay();
+},
+
+autoPlay: function()
+{
 	document.getElementById('playerFrame').contentWindow.location.reload();
 	moodmusicMenu = document.getElementById("moodmusic-menu");
 	moodmusicMenu.openPopup();
 	moodmusicMenu.hidePopup();
 },
 
-getCurrentUrl: function()
+createPlayerURL: function(data)
 {
-	return window.content.document.location.href;
+	numSongs = data.length;
+	var count = 0;
+	var playerURL = 'http://localhost:8000/player.html?';
+	
+	while(count < numSongs)
+	{
+		playerURL = playerURL + 'ID=' + num2str(numSongs[count]) + '&';
+		count++;
+	}
+	
+	playerURL += 'blah=blah';
+	
+	return playerURL;
 },
 
 playMusic: function()
 {
-	var curUrl = this.getCurrentUrl();
+	var curURL = this.getCurrentURL();
 	// console.log(curUrl);
-	var trimText = TextExtractor.getDocumentText(curUrl);
+	var trimText = TextExtractor.getDocumentText(curURL);
 }
-
-// autoPlay: function()
-// {
-	// moodmusicMenu = document.getElementById("moodmusic-menu");
-	// moodmusicMenu.openPopup();
-	// moodmusicMenu.hidePopup();
-// }
 
 /* getText: function()
 {
@@ -55,5 +97,5 @@ playMusic: function()
 	
 window.addEventListener("load", function load(event){
     window.removeEventListener("load", load, false); //remove listener, no longer needed
-    moodmusicobj.init();  
+    moodmusicobj.init();
 },false);
