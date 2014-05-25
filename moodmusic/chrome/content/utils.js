@@ -41,11 +41,33 @@ __getAverageWordLength: function(wordLengthDistribution) {
   return (count > 0) ? total / count : 0;
 },
 
+__getNumberOfVowels: function(text) {
+  var total = 0;
+  for (var i = 0; i < text.length; ++i) {
+    var c = text.charAt(i).toLowerCase();
+    if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') total += 1;
+  }
+  return total;
+},
+
+__getFleschReadingEaseness: function(words, sentences, numSyllables) {
+  var res = 206.835;
+  if (sentences.length > 0) {
+    res -= 1.015 * (words.length / sentences.length);
+  }
+  if (words.length > 0) {
+    res -= 84.6 * (numSyllables / words.length);
+  }
+  return res;
+},
+
 
 getTextStructure: function(documentText) {
+  documentText = documentText || "";
   var words = this.__getNonEmpty(documentText.split(/ |\.|,|\?|\!/i));
   var sentences = this.__getNonEmpty(documentText.split("."));
   var wordLengthDistribution = this.__getWordDistribution(words);
+  var numVowels = this.__getNumberOfVowels(documentText);
 
   return {
     // The original document text.
@@ -59,7 +81,11 @@ getTextStructure: function(documentText) {
     // The average word length in the document.
     averageWordLength: this.__getAverageWordLength(wordLengthDistribution),
     // A list of the sentences in the document.
-    sentences: sentences
+    sentences: sentences,
+    // Number of vowels in the text (approximation for number of syllables).
+    numVowels: numVowels,
+    // Flesch reading easeness score: 90-100 = 11 yr olds, 60-70 = 13 to 15 yr olds, 0-30 univ grads.
+    fleschReadingEaseness: this.__getFleschReadingEaseness(words, sentences, 3*numVowels/4)
   };
-}
+},
 };
