@@ -1,5 +1,6 @@
-function handleFailureMessage(msg) {
-  alert(msg);
+function handleFailureMessage(msg, data) {
+  console.error(msg);
+  console.error(data);
 }
 
 var moodmusicobj = {
@@ -35,8 +36,6 @@ updateLastURL: function() {
 },
 
 refreshPopup: function() {
-	var playerFrame = document.getElementById('playerFrame');
-	// playerFrame.contentWindow.location.reload();
 	var moodmusicMenu = document.getElementById("moodmusic-menu");
 	moodmusicMenu.openPopup();
 	moodmusicMenu.hidePopup();
@@ -59,7 +58,7 @@ onPageLoad: function(aEvent) {
 		moodmusicobj.updateLastURL();
 		TextExtractor.getDocumentText(url, function(data) {
 			console.log("Got document data: ", data);
-			SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
+			SongChooser.chooseSongs(data, utils.getTextStructure(data.text), function(data) {
 				console.log("Got songs: " + data);
 				playerURL = moodmusicobj.createPlayerURL(data);
 				var playerFrame = document.getElementById('playerFrame');

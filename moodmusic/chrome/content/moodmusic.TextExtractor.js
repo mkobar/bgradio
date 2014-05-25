@@ -8,11 +8,11 @@ getDocumentText: function(url, successCallback, failureCallback) {
 
 	$.get(apiUrl, function(data, textStatus, jqXHR) {
     if (data.error) {
-      failureCallback("Error: " + data.errorCode);
+      failureCallback("Error (" + data.errorCode + "): " + textStatus, data);
     }
     successCallback(data);
 	}).fail(function(data, textStatus) {
-    failureCallback("Error: " + textStatus)
+    failureCallback("Error: " + textStatus, data)
   });
 }
 

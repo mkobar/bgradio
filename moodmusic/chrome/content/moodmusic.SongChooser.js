@@ -30,12 +30,12 @@ __doEchoNestSearch: function(params, successCallback, failureCallback) {
     dataType: "json",
     success: successCallback,
     error: function(data, statusText, request) {
-      failureCallback("Error when search echonest for: " + statusText);
+      failureCallback("Error when querying echonest: " + statusText, data);
     }
   });
 },
 
-chooseSongs: function(textStructure, successCallback, failureCallback) {
+chooseSongs: function(rawData, textStructure, successCallback, failureCallback) {
   console.log("The document text structure: ", textStructure);
   var sortedMoods = this.__getMoods(textStructure);
   console.log("Good moods: ", sortedMoods);
@@ -53,7 +53,7 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     sort: "song_hotttnesss-desc",
     limit: true,
     format: "json",
-	results: 15
+	  results: 15
   };
 
   this.__doEchoNestSearch(searchParams, function(data) {
