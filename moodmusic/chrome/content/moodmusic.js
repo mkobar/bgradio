@@ -69,10 +69,27 @@ onPageLoad: function(aEvent) {
 	}
 },
 
+isPopupTransition: false,
+
+resetFrameWidth: function() {
+	// if (!this.isPopupTransition) {
+		// m = document.getElementById('moodmusic-menu');
+		// p = document.getElementById('playerFrame');
+		// m.hidePopup();
+		
+		// p.style.width = '0px';
+		// console.log(p.style.width);
+		// p.style.width = '294px';
+		// console.log(p.style.width);
+		// this.isPopupTransition = true;
+		// m.openPopup();
+		// this.isPopupTransition = false;
+	// }
+},
+
 playMusic: function() {
-  // TODO: implement
-	// var curURL = this.getCurrentURL();
-	// var trimText = TextExtractor.getDocumentText(curURL);
+	p = document.getElementById('playerFrame');
+	$('#toggleplay', p.contentWindow.document).click();
 }
 
 };

@@ -63,6 +63,7 @@ $(document).ready(function() {
   $('#pause').click(function() { apiswf.rdio_pause(); });
   $('#previous').click(function() { playPrevious(); });
   $('#next').click(function() { playNext(); });
+  $('#toggleplay').click(function() { togglePlayback(); });
 });
 
 // Local queue of tracks.
@@ -82,6 +83,16 @@ function playNext() {
 
 // the global callback object
 var callback_object = {};
+var curPlayState = -1;
+
+function togglePlayback() {
+	if (curPlayState == 1) { // if playing
+		apiswf.rdio_pause();
+	}
+	else if (curPlayState != -1) { // if not playing but player is already ready
+		apiswf.rdio_play();
+	}
+}
 
 callback_object.ready = function(user) {
   // Called once the API SWF has loaded and is ready to accept method calls.
@@ -91,15 +102,15 @@ callback_object.ready = function(user) {
 
   if (user == null) {
     $('#nobody').show();
-	  $('#rdioSignIn').show();
+    $('#rdioSignIn').show();
   } else if (user.isSubscriber) {
     $('#subscriber').show();
   } else if (user.isTrial) {
     $('#trial').show();
-	  $('#rdioSubscribe').show();
+	$('#rdioSubscribe').show();
   } else if (user.isFree) {
     $('#free').show();
-	  $('#rdioSubscribe').show();
+	$('#rdioSubscribe').show();
   } else {
     $('#nobody').show();
 	  $('#rdioSignIn').show();
@@ -121,6 +132,7 @@ callback_object.ready = function(user) {
 callback_object.playStateChanged = function(playState) {
   // The playback state has changed.
   // The state can be: 0 - paused, 1 - playing, 2 - stopped, 3 - buffering or 4 - paused.
+  curPlayState = playState;
   $('#playState').text(playState);
 }
 
@@ -153,7 +165,6 @@ callback_object.positionChanged = function(position) {
   // This happens both in response to a seek and during playback.
   $('#position').text(position);
 }
-
 
 callback_object.shuffleChanged = function(shuffle) {
   // The shuffle mode has changed.
