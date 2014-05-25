@@ -41,6 +41,7 @@ function passVars()
 	return res;
 }
 
+
 $(document).ready(function() {
   // on page load use SWFObject to load the API swf into div#apiswf
   var flashvars = {
@@ -60,15 +61,29 @@ $(document).ready(function() {
   $('#play').click(function() { apiswf.rdio_play(); });
   $('#stop').click(function() { apiswf.rdio_stop(); });
   $('#pause').click(function() { apiswf.rdio_pause(); });
-  $('#previous').click(function() { apiswf.rdio_previous(); });
-  $('#next').click(function() { apiswf.rdio_next(); });
+  $('#previous').click(function() { playPrevious(); });
+  $('#next').click(function() { playNext(); });
 });
 
+// Local queue of tracks.
+var trackIds = passVars()["ID"];
+var trackPosition = 0;
+
+function playPrevious() {
+  trackPosition = trackPosition - 2;
+  if (trackPosition < 0) trackPosition = trackIds.length + trackPosition;
+  apiswf.rdio_clearQueue();
+  apiswf.rdio_play(trackIds[trackPosition]);
+}
+function playNext() {
+  apiswf.rdio_clearQueue();
+  apiswf.rdio_play(trackIds[trackPosition]);
+}
 
 // the global callback object
 var callback_object = {};
 
-callback_object.ready = function ready(user) {
+callback_object.ready = function(user) {
   // Called once the API SWF has loaded and is ready to accept method calls.
 
   // find the embed/object element
@@ -76,42 +91,43 @@ callback_object.ready = function ready(user) {
 
   if (user == null) {
     $('#nobody').show();
-	$('#rdioSignIn').show();
+	  $('#rdioSignIn').show();
   } else if (user.isSubscriber) {
     $('#subscriber').show();
   } else if (user.isTrial) {
     $('#trial').show();
-	$('#rdioSubscribe').show();
+	  $('#rdioSubscribe').show();
   } else if (user.isFree) {
     $('#free').show();
-	$('#rdioSubscribe').show();
+	  $('#rdioSubscribe').show();
   } else {
     $('#nobody').show();
-	$('#rdioSignIn').show();
+	  $('#rdioSignIn').show();
   }
-
   console.log("User = ", user);
-  
-  apiswf.setShuffle(true);
-  apiswf.setRepeat(2);
 
-  var trackIds = passVars()["ID"];
-  apiswf.rdio_play(trackIds[0]);
-  for (var i = 0; i < trackIds.length; ++i) {
-	  apiswf.rdio_queue(trackIds[i]);
+  // Shuffle the tracks.
+  for (var i = trackIds.length - 1; i > 0; --i) {
+    var j = Math.floor(Math.random() * (i+1));
+    var temp = trackIds[i];
+    trackIds[i] = trackIds[j];
+    trackIds[j] = temp;
   }
-  apiswf.rdio_play();
+
+  // Play the first track.
+  apiswf.rdio_play(trackIds[trackPosition]);
 }
 
-callback_object.playStateChanged = function playStateChanged(playState) {
+callback_object.playStateChanged = function(playState) {
   // The playback state has changed.
   // The state can be: 0 - paused, 1 - playing, 2 - stopped, 3 - buffering or 4 - paused.
   $('#playState').text(playState);
 }
 
-callback_object.playingTrackChanged = function playingTrackChanged(playingTrack, sourcePosition) {
+callback_object.playingTrackChanged = function(playingTrack, sourcePosition) {
   // The currently playing track has changed.
-  // Track metadata is provided as playingTrack and the position within the playing source as sourcePosition.
+  // Track metadata is provided as playingTrack and the position within the playing source
+  // as sourcePosition.
   if (playingTrack != null) {
     $('#track').text(playingTrack['name']);
     $('#album').text(playingTrack['album']);
@@ -120,40 +136,44 @@ callback_object.playingTrackChanged = function playingTrackChanged(playingTrack,
   }
 }
 
-callback_object.playingSourceChanged = function playingSourceChanged(playingSource) {
+callback_object.playingSourceChanged = function(playingSource) {
   // The currently playing source changed.
   // The source metadata, including a track listing is inside playingSource.
+  trackPosition = (trackPosition + 1) % trackIds.length;
+  apiswf.rdio_queue(trackIds[trackPosition]);
 }
 
-callback_object.volumeChanged = function volumeChanged(volume) {
-  // The volume changed to volume, a number between 0 and 1.
+callback_object.queueChanged = function(newQueue) {
+  // The queue has changed to newQueue.
+  // console.log("queueChanged:", newQueue);
 }
 
-callback_object.muteChanged = function muteChanged(mute) {
-  // Mute was changed. mute will either be true (for muting enabled) or false (for muting disabled).
-}
-
-callback_object.positionChanged = function positionChanged(position) {
+callback_object.positionChanged = function(position) {
   //The position within the track changed to position seconds.
   // This happens both in response to a seek and during playback.
   $('#position').text(position);
 }
 
-callback_object.queueChanged = function queueChanged(newQueue) {
-  // The queue has changed to newQueue.
-}
 
-callback_object.shuffleChanged = function shuffleChanged(shuffle) {
+callback_object.shuffleChanged = function(shuffle) {
   // The shuffle mode has changed.
   // shuffle is a boolean, true for shuffle, false for normal playback order.
 }
 
-callback_object.repeatChanged = function repeatChanged(repeatMode) {
+callback_object.repeatChanged = function(repeatMode) {
   // The repeat mode change.
   // repeatMode will be one of: 0: no-repeat, 1: track-repeat or 2: whole-source-repeat.
 }
 
-callback_object.playingSomewhereElse = function playingSomewhereElse() {
-  // An Rdio user can only play from one location at a time.
+callback_object.playingSomewhereElse = function() {
   // If playback begins somewhere else then playback will stop and this callback will be called.
-}
+  alert("An Rdio user can only play from one location at a time. Your playback here will now stop.");
+};
+
+callback_object.volumeChanged = function(volume) {
+  // The volume changed to volume, a number between 0 and 1.
+};
+
+callback_object.muteChanged = function(mute) {
+  // Mute was changed. mute will either be true (for muting enabled) or false (for muting disabled).
+};
