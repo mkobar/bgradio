@@ -9,7 +9,7 @@ var moodmusicobj = {
 init: function() {
 	// // Get handle to Mozilla preferences service
 	// this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
-  //   .getService(Components.interfaces.nsIPrefService)
+	//   .getService(Components.interfaces.nsIPrefService)
 	//   .getBranch("extensions.moodmusic.");
 	// this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 	
@@ -31,7 +31,7 @@ getCurrentURL: function() {
 
 refreshPopup: function() {
 	var playerFrame = document.getElementById('playerFrame');
-	playerFrame.contentWindow.location.reload();
+	// playerFrame.contentWindow.location.reload();
 	var moodmusicMenu = document.getElementById("moodmusic-menu");
 	moodmusicMenu.openPopup();
 	moodmusicMenu.hidePopup();
@@ -40,8 +40,8 @@ refreshPopup: function() {
 createPlayerURL: function(data) {
 	var numSongs = data.length;
 	var playerURL = 'http://localhost:8000/hello-web-playback/player.html?';	
-  for (var count = 0; count < numSongs; ++count) {
-		playerURL = playerURL + 'ID=' + data[count] + '&';
+	for (var count = 0; count < numSongs; ++count) {
+		playerURL += 'ID=' + data[count] + '&';
 	}
 	// trim final '&' or '?' from the end of playerURL
 	playerURL = playerURL.substring(0, playerURL.length-1);
@@ -57,7 +57,7 @@ onPageLoad: function(aEvent) {
 			playerURL = moodmusicobj.createPlayerURL(data);
 			var playerFrame = document.getElementById('playerFrame');
 			playerFrame.setAttribute('src', playerURL);
-      moodmusicobj.refreshPopup();
+			moodmusicobj.refreshPopup();
 		}, handleFailureMessage);
 	}, handleFailureMessage);
 },

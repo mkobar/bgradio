@@ -29,7 +29,7 @@ function passVars()
 	var question = str.indexOf('?');
 	var res = {};
 	if (question!= -1) {
-		var str = str.substring(question, str.length);
+		var str = str.substring(question+1, str.length);
 		var components = str.split(/&|=/i);
 		for (var i = 0; i < components.length; i+=2) {
 			var c = components[i];
@@ -97,6 +97,7 @@ callback_object.ready = function ready(user) {
   for(var i=0; i<trackIds.length; i++) {
 	apiswf.rdio_queue(trackIds[i]);
   }
+  apiswf.rdio_play(trackIds[0]);
   apiswf.rdio_play();
 }
 
