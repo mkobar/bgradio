@@ -92,11 +92,14 @@ callback_object.ready = function ready(user) {
 
   console.log("User = ", user);
   
+  apiswf.setShuffle(true);
+  apiswf.setRepeat(2);
+
   var trackIds = passVars()["ID"];
+  apiswf.rdio_play(trackIds[0]);
   for (var i = 0; i < trackIds.length; ++i) {
 	  apiswf.rdio_queue(trackIds[i]);
   }
-  apiswf.rdio_play(trackIds[0]);
   apiswf.rdio_play();
 }
 
