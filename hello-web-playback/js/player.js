@@ -20,12 +20,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-// a global variable that will hold a reference to the api swf once it has loaded
+// A global variable that will hold a reference to the api swf once it has loaded
 var apiswf = null;
 
 function passVars()
 {
-	var str=location.href;
+	var str = location.href;
 	var question = str.indexOf('?');
 	var res = {};
 	if (question!= -1) {
@@ -37,7 +37,7 @@ function passVars()
 			else res[c] = [components[i+1]];
 		}
 	}
-	console.log(res);
+	console.log("Params = ", res);
 	return res;
 }
 
@@ -90,12 +90,11 @@ callback_object.ready = function ready(user) {
 	$('#rdioSignIn').show();
   }
 
-  console.log(user);
+  console.log("User = ", user);
   
   var trackIds = passVars()["ID"];
-  console.log(trackIds);
-  for(var i=0; i<trackIds.length; i++) {
-	apiswf.rdio_queue(trackIds[i]);
+  for (var i = 0; i < trackIds.length; ++i) {
+	  apiswf.rdio_queue(trackIds[i]);
   }
   apiswf.rdio_play(trackIds[0]);
   apiswf.rdio_play();
