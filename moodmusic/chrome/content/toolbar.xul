@@ -23,8 +23,8 @@
 	 oncommand="moodmusicobj.playMusic()">
 	 
 		<menupopup id="moodmusic-menu" width="300" height="190">
-			<iframe id="playerFrame" src=""
-			 width="294" height="184" />
+			<iframe id="playerFrame" src="http://localhost:8000/hello-web-playback/loading.html" 
+              width="294" height="184" />
 		</menupopup>
 	
 	</toolbarbutton>
