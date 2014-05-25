@@ -59,7 +59,7 @@ createPlayerURL: function(data)
 {
 	numSongs = data.length;
 	var count = 0;
-	var playerURL = 'http://localhost:8000/player.html?';
+	var playerURL = 'http://localhost:8000/hello-web-playback/player.html?';
 	
 	while(count < numSongs)
 	{
