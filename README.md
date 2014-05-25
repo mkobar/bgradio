@@ -1,6 +1,4 @@
-bgradio
-=======
+Mood Music
+==========
 
-bgradio
-
-Plays background music matching the mood of a webpage.
+Firefox add-on that plays background music matching the mood of a webpage.
