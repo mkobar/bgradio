@@ -45,7 +45,7 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
   this.__doEchoNestSearch({mood: sortedMoods[0].mood}, function(data) {
     var extractedJSONText = JSON.stringify(data, undefined, 2);
     var jsonObject = eval('(' + extractedJSONText + ')');
-    console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
+    // console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
 
     var count = 0;
     var songIds = [];
