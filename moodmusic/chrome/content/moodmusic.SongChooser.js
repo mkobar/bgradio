@@ -59,7 +59,7 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     var extractedJSONText = JSON.stringify(data, undefined, 2);
     var jsonObject = eval('(' + extractedJSONText + ')');
     // console.log(jsonObject.response.songs[2].artist_foreign_ids[0].foreign_id);
-    
+
     var count = 0;
     var songIds = [];
     
@@ -85,6 +85,7 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
     }
     console.log("Tracks found: " + jsonObject.response.songs.length);
     successCallback(songIds);
+
   }, failureCallback);
 }
 

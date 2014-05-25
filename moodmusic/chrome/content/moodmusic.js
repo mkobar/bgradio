@@ -18,26 +18,27 @@ init: function() {
 	
 	var appcontent = document.getElementById("appcontent");   // browser
 	if(appcontent){
-		appcontent.addEventListener("DOMContentLoaded", this.onPageLoad, true);
+		appcontent.addEventListener("DOMContentLoaded", moodmusicobj.onPageLoad, true);
 	}
 },
 
+/***
+getCurrentURL() returns the URL of the website currently displayed in the browser.
+***/
 getCurrentURL: function()
 {
 	return window.content.document.location.href;
 },
 
-onPageLoad: function(aEvent) {	
+onPageLoad: function(aEvent) {
 	var url = moodmusicobj.getCurrentURL();
-	alert(url);
-	alert(TextExtractor.show);
 	TextExtractor.getDocumentText(url, function(data) {
 		console.log("Got document data: ", data);
 		SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
 			console.log("Got songs: " + data);
 			playerURL = moodmusicobj.createPlayerURL(data);
-			var playerFrame = document.getElementByID('playerFrame');
-			playerFrame.setAttribute(src, playerURL);
+			var playerFrame = document.getElementById('playerFrame');
+			playerFrame.setAttribute('src', playerURL);
 			// SongPlayer.playSongs(data);
 		}, handleFailureMessage);
 	}, handleFailureMessage);
@@ -61,11 +62,12 @@ createPlayerURL: function(data)
 	
 	while(count < numSongs)
 	{
-		playerURL = playerURL + 'ID=' + num2str(numSongs[count]) + '&';
+		playerURL = playerURL + 'ID=' + data[count] + '&';
 		count++;
 	}
 	
-	playerURL += 'blah=blah';
+	// trim final '&' or '?' from the end of playerURL
+	playerURL = playerURL.substring(0, playerURL.length-1);
 	
 	return playerURL;
 },
