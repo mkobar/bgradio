@@ -68,8 +68,8 @@ chooseSongs: function(textStructure, successCallback, failureCallback) {
       var count2 = 0;
       var sizeOfTracks = jsonObject.response.songs[count].tracks.length;
 	  
-	  // limit number of tracks to 1 per song found
-	  if (sizeOfTracks > 1) { sizeOfTracks = 1; }
+	    // limit number of tracks to 1 per song found
+	    if (sizeOfTracks > 1) { sizeOfTracks = 1; }
       
       if (jsonObject.response.songs[count].tracks != 0) {
         //console.log("length is good");
