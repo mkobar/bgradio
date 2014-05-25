@@ -5,6 +5,7 @@ function handleFailureMessage(msg) {
 var moodmusicobj = {
 
 // prefs: null,
+lastURL: '',
 
 init: function() {
 	// // Get handle to Mozilla preferences service
@@ -29,6 +30,10 @@ getCurrentURL: function() {
 	return window.content.document.location.href;
 },
 
+updateLastURL: function() {
+	moodmusicobj.lastURL = window.content.document.location.href;
+},
+
 refreshPopup: function() {
 	var playerFrame = document.getElementById('playerFrame');
 	// playerFrame.contentWindow.location.reload();
@@ -50,18 +55,20 @@ createPlayerURL: function(data) {
 
 onPageLoad: function(aEvent) {
 	var url = moodmusicobj.getCurrentURL();
-	TextExtractor.getDocumentText(url, function(data) {
-		console.log("Got document data: ", data);
-		SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
-			console.log("Got songs: " + data);
-			playerURL = moodmusicobj.createPlayerURL(data);
-			var playerFrame = document.getElementById('playerFrame');
-			playerFrame.setAttribute('src', playerURL);
-			moodmusicobj.refreshPopup();
+	if (url != moodmusicobj.lastURL) {
+		moodmusicobj.updateLastURL();
+		TextExtractor.getDocumentText(url, function(data) {
+			console.log("Got document data: ", data);
+			SongChooser.chooseSongs(utils.getTextStructure(data.text), function(data) {
+				console.log("Got songs: " + data);
+				playerURL = moodmusicobj.createPlayerURL(data);
+				var playerFrame = document.getElementById('playerFrame');
+				playerFrame.setAttribute('src', playerURL);
+				moodmusicobj.refreshPopup();
+			}, handleFailureMessage);
 		}, handleFailureMessage);
-	}, handleFailureMessage);
+	}
 },
-
 
 playMusic: function() {
   // TODO: implement
