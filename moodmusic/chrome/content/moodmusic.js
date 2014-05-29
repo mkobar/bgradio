@@ -41,14 +41,21 @@ refreshPopup: function() {
 	moodmusicMenu.hidePopup();
 },
 
-createPlayerURL: function(data) {
-	var numSongs = data.length;
+createPlayerURL: function(songIDs, moodText) {
+	var numSongs = songIDs.length;
 	var playerURL = 'http://localhost:8000/hello-web-playback/player.html?';	
+	
+	// add Song IDs to URL
 	for (var count = 0; count < numSongs; ++count) {
-		playerURL += 'ID=' + data[count] + '&';
+		playerURL += 'ID=' + songIDs[count] + '&';
 	}
+	
+	// add moodText to URL
+	playerURL += 'mood=' + encodeURIComponent(moodText);
+	
 	// trim final '&' or '?' from the end of playerURL
-	playerURL = playerURL.substring(0, playerURL.length-1);
+	// playerURL = playerURL.substring(0, playerURL.length-1);
+	
 	return playerURL;
 },
 
@@ -58,9 +65,9 @@ onPageLoad: function(aEvent) {
 		moodmusicobj.updateLastURL();
 		TextExtractor.getDocumentText(url, function(data) {
 			console.log("Got document data: ", data);
-			SongChooser.chooseSongs(data, utils.getTextStructure(data.text), function(data) {
-				console.log("Got songs: " + data);
-				playerURL = moodmusicobj.createPlayerURL(data);
+			SongChooser.chooseSongs(data, utils.getTextStructure(data.text), function(songIDs, moodText) {
+				console.log("Got songs: " + songIDs);
+				var playerURL = moodmusicobj.createPlayerURL(songIDs, moodText);
 				var playerFrame = document.getElementById('playerFrame');
 				playerFrame.setAttribute('src', playerURL);
 				moodmusicobj.refreshPopup();

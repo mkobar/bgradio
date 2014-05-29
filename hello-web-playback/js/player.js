@@ -25,16 +25,17 @@ var apiswf = null;
 
 function passVars()
 {
-	var str = location.href;
+	var str = decodeURIComponent(location.href);
 	var question = str.indexOf('?');
+	// create result object
 	var res = {};
-	if (question!= -1) {
-		var str = str.substring(question+1, str.length);
-		var components = str.split(/&|=/i);
+	if (question != -1) { // if there are parameters in URL
+		var str = str.substring(question+1, str.length); // only keep the part of the URL after the '?'
+		var components = str.split(/&|=/i); // split the string at each '&' or '='
 		for (var i = 0; i < components.length; i+=2) {
 			var c = components[i];
-			if (res[c]) res[c].push(components[i+1]);
-			else res[c] = [components[i+1]];
+			if (res[c]) res[c].push(components[i+1]); // if property 'c' already exists, then append new component
+			else res[c] = [components[i+1]]; // otherwise, create new property and set it equal to new component
 		}
 	}
 	console.log("Params = ", res);
@@ -45,10 +46,10 @@ function passVars()
 $(document).ready(function() {
   // on page load use SWFObject to load the API swf into div#apiswf
   var flashvars = {
-    'playbackToken': playback_token, // from token.js
-    'domain': domain,                // from token.js
-    'listener': 'callback_object'    // the global name of the object that will receive callbacks from the SWF
-    };
+	'playbackToken': playback_token,	// from token.js
+	'domain': domain,					// from token.js
+	'listener': 'callback_object'		// the global name of the object that will receive callbacks from the SWF
+	};
   var params = {
     'allowScriptAccess': 'always'
   };
@@ -68,6 +69,7 @@ $(document).ready(function() {
 
 // Local queue of tracks.
 var trackIds = passVars()["ID"];
+var trackMood = passVars()["mood"];
 var trackPosition = 0;
 
 function playPrevious() {
@@ -99,7 +101,8 @@ callback_object.ready = function(user) {
 
   // find the embed/object element
   apiswf = $('#apiswf').get(0);
-
+  
+  // determine subscription status of user and display appropriate message
   if (user == null) {
     $('#nobody').show();
     $('#rdioSignIn').show();
@@ -116,7 +119,10 @@ callback_object.ready = function(user) {
 	  $('#rdioSignIn').show();
   }
   console.log("User = ", user);
-
+  
+  // display the mood
+  $('#mood').text(trackMood);
+  
   // Shuffle the tracks.
   for (var i = trackIds.length - 1; i > 0; --i) {
     var j = Math.floor(Math.random() * (i+1));
