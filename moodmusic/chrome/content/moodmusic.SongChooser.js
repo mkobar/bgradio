@@ -38,10 +38,18 @@ __doEchoNestSearch: function(params, successCallback, failureCallback) {
 chooseSongs: function(rawData, textStructure, successCallback, failureCallback) {
   console.log("The document text structure: ", textStructure);
   var sortedMoods = this.__getMoods(textStructure);
+  var moodText = '';
   console.log("Good moods: ", sortedMoods);
+  // p = document.getElementById('playerFrame');
   if (sortedMoods.length > 0) {
     console.log("Best mood: ", sortedMoods[0].mood, sortedMoods[0].count);
+	// setTimeout($("#mood", p.contentWindow.document).text(sortedMoods[0].mood), 10000);
+	// alert(sortedMoods[0].mood);
+	moodText = sortedMoods[0].mood;
   } else {
+	// setTimeout($("#mood", p.contentWindow.document).text("Default Happy"), 10000);
+	// alert("Default Mood is Happy");
+	moodText = 'Undetermined - Default Mood is Happy';
     sortedMoods.push('happy');  // default mood is happy :)
   }
 
@@ -88,7 +96,7 @@ chooseSongs: function(rawData, textStructure, successCallback, failureCallback) 
 		count++;
 	}
 	console.log("Tracks found: " + jsonObject.response.songs.length);
-	successCallback(songIds);
+	successCallback(songIds, moodText);
 
   }, failureCallback);
 }
